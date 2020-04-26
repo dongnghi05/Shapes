@@ -5,6 +5,8 @@
 #include "circle.h"
 #include "rectangle.h"
 #include "square.h"
+#include "equilateral.h"
+#include "rhombus.h"
 
 #include <iostream>
 #include <vector>
@@ -20,7 +22,7 @@ void DeleteShapes(vector<Shape*>& shapes);
 int main() {
 	vector<Shape*> shapes;
 	int menuOption;
-	while ( (menuOption = Menu()) != 11){
+	while ( (menuOption = Menu()) != 14){
 		if (menuOption == 1){ // Ellipse
 			double a, b;
 			cout << "Input major semi-axis length: ";
@@ -63,7 +65,21 @@ int main() {
 			cin >> length;
 			shapes.push_back(new Square(length));
 			cout << "Inserted... " << endl << endl;
-		}else if (menuOption == 7){ // List all Ellipses
+        }else if (menuOption == 7){ // Equilateral
+            double oneside;
+            cout << "Input one side length: ";
+            cin >> oneside;
+            shapes.push_back(new Equilateral(oneside));
+            cout << "Inserted... " << endl << endl;
+        }else if (menuOption == 8){ // Rhombus
+		    double diagonalP, diagonalQ;
+            cout << "Input first diagonal: ";
+            cin >> diagonalP;
+            cout << "Input second diagonal: ";
+            cin >> diagonalQ;
+            shapes.push_back(new Rhombus(diagonalP, diagonalQ));
+            cout << "Inserted... " << endl << endl;
+		}else if (menuOption == 9){ // List all Ellipses
 			cout << "Only Ellipses" << endl;
 			for (Shape* shape: shapes){
 				if (dynamic_cast<Ellipse*>(shape) != nullptr) {
@@ -75,11 +91,40 @@ int main() {
 					cout << endl;
 				}
 			}
-		}else if (menuOption == 8){ // List all Triangles
-
-		}else if (menuOption == 9){ // List all Rectangles
-
-		}else if (menuOption == 10){ // List all shapes
+		}else if (menuOption == 10){ // List all Triangles
+            cout << "All Triangles" << endl;
+            for (Shape* shape: shapes) {
+                if (dynamic_cast<Triangle *>(shape) != nullptr) {
+                    Triangle *triangle = dynamic_cast<Triangle *>(shape);
+                    cout << shape->ToString() << endl;
+                    cout << "\tPerimeter:    " << shape->Perimeter() << endl;
+                    cout << "\tArea:         " << shape->Area() << endl;
+                    cout << endl;
+                }
+            }
+		}else if (menuOption == 11){ // List all Rectangles
+            cout << "All Rectangles" << endl;
+            for (Shape* shape: shapes) {
+                if (dynamic_cast<Rectangle *>(shape) != nullptr) {
+                    Rectangle *rectangle = dynamic_cast<Rectangle *>(shape);
+                    cout << shape->ToString() << endl;
+                    cout << "\tPerimeter:    " << shape->Perimeter() << endl;
+                    cout << "\tArea:         " << shape->Area() << endl;
+                    cout << endl;
+                }
+            }
+		}else if (menuOption == 12){ // List all Rbombus
+            cout << "Only Rhombus" << endl;
+            for (Shape* shape: shapes) {
+                if (dynamic_cast<Rhombus *>(shape) != nullptr) {
+                    Rhombus *rhombus = dynamic_cast<Rhombus *>(shape);
+                    cout << shape->ToString() << endl;
+                    cout << "\tPerimeter:    " << shape->Perimeter() << endl;
+                    cout << "\tArea:         " << shape->Area() << endl;
+                    cout << endl;
+                }
+            }
+		}else if (menuOption == 13){ // List all shapes
 			for (Shape* shape: shapes){
 				cout << shape->ToString() << endl;
 				cout << "\tPerimeter:    " << shape->Perimeter() << endl;
@@ -104,11 +149,14 @@ size_t Menu(){
 		cout << "4. Add an Isosceles Triangle" << endl;
 		cout << "5. Add a Rectangle" << endl;
 		cout << "6. Add a Square" << endl;
-		cout << "7. List all Ellipses" << endl;
-		cout << "8. List all Triangles" << endl;
-		cout << "9. List all Rectangles" << endl;
-		cout << "10. List all Shapes" << endl;
-		cout << "11. Exit" << endl;
+        cout << "7. Add a Equilateral" << endl;
+        cout << "8. Add a Rhombus" << endl;
+		cout << "9. List all Ellipses" << endl;
+		cout << "10. List all Triangles" << endl;
+		cout << "11. List all Rectangles" << endl;
+		cout << "12. List all Rhombus" << endl;
+        cout << "13. List all Shapes" << endl;
+		cout << "14. Exit" << endl;
 
 		cin >> option;
 		if (cin.fail()){
@@ -117,7 +165,7 @@ size_t Menu(){
 			cerr << "Incorrect input!" << endl;
 			continue;
 		}
-		if (option < 1 || option > 11){
+		if (option < 1 || option > 14){
 			cerr << "Incorrect menu option!" << endl;
 			continue;
 		}
